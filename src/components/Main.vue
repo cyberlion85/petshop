@@ -2,7 +2,7 @@
   <div>
     <my-header :cart-item-count="cartItemCount"></my-header>
     <main>
-      <div v-for="product in sortedProducts" :key="product">
+      <div v-for="product in sortedProducts" :key="product.id">
         <div class="row">
           <div class="col-md-5 col-md-offset-0">
             <figure>
@@ -10,7 +10,7 @@
             </figure>
           </div>
           <div class="col-md-6 col-md-offset-0 description">
-            <router-link tag="h1" :to="{ name: 'Id', params: { id: product.id } }">{{ product.title }}</router-link>
+            <router-link tag="h1" :to="{ name: 'id', params: { id: product.id } }">{{ product.title }}</router-link>
             <p v-html="product.description"></p>
             <p class="price">{{ product.price | formatPrice }}</p>
             <button v-if="canAddToCart(product)" class="btn btn-primary btn-lg" @click="addToCart(product)">Add to cart</button>
