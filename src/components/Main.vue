@@ -15,13 +15,15 @@
             <p class="price">{{ product.price | formatPrice }}</p>
             <button v-if="canAddToCart(product)" class="btn btn-primary btn-lg" @click="addToCart(product)">Add to cart</button>
             <button v-else disabled="true" class="btn btn-primary btn-lg">Add to cart</button>
-            <span v-if="product.availableInventory - cartCount(product.id) === 0" class="inventory-message">All Out!</span>
-            <span v-else-if="product.availableInventory - cartCount(product.id) < 5" class="inventory-message"
-              >Only
-              {{ product.availableInventory - cartCount(product.id) }}
-              left!</span
-            >
-            <span v-else class="inventory-message">Buy Now!</span>
+
+            <transition name="bounce" mode="out-in">
+              <span v-if="product.availableInventory - cartCount(product.id) === 0" key="0" class="inventory-message"> All Out! </span>
+              <span v-else-if="product.availableInventory - cartCount(product.id) < 5" key="" class="inventory-message">
+                Only {{ product.availableInventory - cartCount(product.id) }} left!
+              </span>
+              <span v-else key="" class="inventory-message">Buy Now! </span>
+            </transition>
+
             <div class="rating">
               <span v-for="n in 5" :key="n" :class="{ 'rating-active': checkRating(n, product) }">☆</span>
             </div>
@@ -112,4 +114,35 @@ export default Vue.extend({
   },
 });
 </script>
-<style scoped></style>
+<style scoped>
+.bounce-enter-active {
+  animation: shake 0.72s cubic-bezier(0.37, 0.07, 0.19, 0.97) both;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+}
+
+@keyframes shake {
+  10%,
+  90% {
+    color: red;
+    transform: translate3d(-1px, 0, 0);
+  }
+
+  20%,
+  80% {
+    transform: translate3d(2px, 0, 0);
+  }
+
+  30%,
+  50%,
+  70% {
+    color: red;
+    transform: translate3d(-4px, 0, 0);
+  }
+
+  40%,
+  60% {
+    transform: translate3d(4px, 0, 0);
+  }
+}
+</style>
