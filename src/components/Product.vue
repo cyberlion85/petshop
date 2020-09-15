@@ -5,7 +5,7 @@
     <div class="row">
       <div class="col-md-5 col-md-offset-0">
         <figure>
-          <img class="product" v-bind:src="product.image" />
+          <img class="product" :src="product.image" />
         </figure>
       </div>
       <div class="col-md-6 col-md-offset-0 description">
@@ -20,7 +20,7 @@
     </div>
   </div>
 </template>
-  <script>
+<script>
 import MyHeader from './Header.vue';
 import axios from 'axios';
 // import { Product } from '@/interfaces';
@@ -32,8 +32,7 @@ export default {
     };
   },
 
-  created() {
-    // console.log(this.$route.params);
+  created: function() {
     axios.get('/products.json').then((response) => {
       this.product = response.data.products.filter((data) => data.id == this.$route.params.id)[0];
       this.product.image = '/' + this.product.image;
